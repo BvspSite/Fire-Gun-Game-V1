@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game By Bvsp</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background: linear-gradient(120deg, #171717, #607682);
+            animation: backgroundShift 15s ease-in-out infinite;
+        }
+        canvas {
+            display: block;
+            background: rgba(6, 7, 7, 0.356);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2), 0 0 30px rgba(0, 0, 0, 0.3), 0 0 45px rgba(0, 0, 0, 0.4);
+            margin: 0 auto;
+            border-radius: 12px;
+            border: 1px solid rgba(250, 241, 241, 0.4);
+        }
+    </style>
+</head>
+<body>
+
+ 
+   
+    <canvas id="gameCanvas"></canvas>
+    <script src="js/utils.js"></script>
+    <script src="js/player.js"></script>
+    <script src="js/enemy.js"></script>
+    <script src="js/bullet.js"></script>
+    <script src="js/laser.js"></script>
+    <script src="js/game.js"></script>
+</body>
+</html>
