@@ -20,13 +20,67 @@
             border-radius: 12px;
             border: 1px solid rgba(250, 241, 241, 0.4);
         }
+        #pauseButton {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 40px;
+            height: 40px;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1000;
+            transition: background-color 0.3s ease;
+        }
+        #pauseButton:hover {
+            background-color: #555;
+        }
+        #menu {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 150px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            border-radius: 5px;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            transition: opacity 0.5s ease;
+        }
+        #menu.show {
+            display: flex;
+        }
+        .menu-item {
+            margin: 10px 0;
+            padding: 10px;
+            cursor: pointer;
+            width: 100%;
+            text-align: center;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        .menu-item:hover {
+            background-color: #444;
+        }
     </style>
 </head>
 <body>
-
- 
-   
     <canvas id="gameCanvas"></canvas>
+    <button id="pauseButton">&#9776;</button>
+    <div id="menu">
+        <div class="menu-item" id="resume">Lanjut</div>
+        <div class="menu-item" id="reset">Reset</div>
+        <div class="menu-item" id="restart">Ulangi</div>
+    </div>
     <script src="js/utils.js"></script>
     <script src="js/player.js"></script>
     <script src="js/enemy.js"></script>
