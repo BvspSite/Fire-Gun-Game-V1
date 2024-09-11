@@ -8,9 +8,10 @@ const player = new Player(canvas.width / 2 - 30, canvas.height - 60, 60, 40);
 let enemies = [];
 const keys = { left: false, right: false, space: false, l: false };
 let autoplayEnabled = false;
+let gamePaused = false;
 
 document.addEventListener('keydown', (e) => {
-    if (!autoplayEnabled) { // Cegah input manual saat autoplay aktif
+    if (!autoplayEnabled && !gamePaused) { 
         if (e.code === 'ArrowLeft') keys.left = true;
         if (e.code === 'ArrowRight') keys.right = true;
         if (e.code === 'Space') keys.space = true;
@@ -19,7 +20,7 @@ document.addEventListener('keydown', (e) => {
 });
 
 document.addEventListener('keyup', (e) => {
-    if (!autoplayEnabled) { // Cegah input manual saat autoplay aktif
+    if (!autoplayEnabled && !gamePaused) { 
         if (e.code === 'ArrowLeft') keys.left = false;
         if (e.code === 'ArrowRight') keys.right = false;
         if (e.code === 'Space') {
@@ -34,9 +35,11 @@ document.addEventListener('keyup', (e) => {
 });
 
 function createEnemy() {
+    if (gamePaused) return; // Jangan buat musuh jika game dipause
     const x = Math.random() * (canvas.width - 50);
     const speed = Math.random() * 2 + 0;
-    const enemy = new Enemy(x, -30, 50, 40, speed, 5);
+    const shapeType = Math.floor(Math.random() * 3) + 1;
+    const enemy = new Enemy(x, -30, 50, 40, speed, shapeType);
     enemies.push(enemy);
 }
 
@@ -45,18 +48,15 @@ function updateEnemies() {
         enemy.move();
         enemy.draw(ctx);
 
-        // Hapus musuh jika keluar dari layar
         if (enemy.y > canvas.height) {
             enemies.splice(index, 1);
         }
 
-        // Periksa apakah musuh terkena laser
         player.lasers.forEach((laser, laserIndex) => {
             if (detectCollision(laser, enemy)) {
-                // Hapus musuh dan laser yang bertabrakan
                 enemies.splice(index, 1);
                 player.lasers.splice(laserIndex, 1);
-                player.score += 10; // Tambahkan skor
+                player.score += enemy.pointValue; // Tambah skor berdasarkan bentuk musuh
             }
         });
     });
@@ -69,6 +69,8 @@ function drawScore() {
 }
 
 function gameLoop() {
+    if (gamePaused) return; // Hentikan game loop jika dipause
+    
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     player.draw(ctx);
     if (!autoplayEnabled) {
@@ -80,9 +82,38 @@ function gameLoop() {
     requestAnimationFrame(gameLoop);
 }
 
+function toggleMenu() {
+    const menu = document.getElementById('menu');
+    menu.classList.toggle('show');
+}
+
+function resumeGame() {
+    gamePaused = false;
+    document.getElementById('menu').classList.remove('show');
+    requestAnimationFrame(gameLoop);
+}
+
+function resetGame() {
+    location.reload(); // Reload halaman untuk mereset game
+}
+
+function restartGame() {
+    location.reload(); // Reload halaman untuk memulai ulang game
+}
+
+document.getElementById('pauseButton').addEventListener('click', () => {
+    if (!gamePaused) {
+        gamePaused = true;
+        toggleMenu();
+    } else {
+        resumeGame();
+    }
+});
+
+document.getElementById('resume').addEventListener('click', resumeGame);
+document.getElementById('reset').addEventListener('click', resetGame);
+document.getElementById('restart').addEventListener('click', restartGame);
+
 setInterval(createEnemy, 1500);
 
 gameLoop();
-
-
-
