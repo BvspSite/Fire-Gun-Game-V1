@@ -4,7 +4,7 @@ class Player {
         this.y = y;
         this.width = width;
         this.height = height;
-        this.speed = 7;
+        this.speed = 5;
         this.lasers = [];
         this.color = 'white';
         this.score = 0;
